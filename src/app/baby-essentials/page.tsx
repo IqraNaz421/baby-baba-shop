@@ -1,12 +1,21 @@
 
-
-//  'use client'
-//  import Image from 'next/image';
-//   import React from 'react';
+// 'use client'
+// import Image from 'next/image';
+// import React from 'react';
 // import { useRouter } from 'next/navigation'; // For redirecting to the cart page
 
+// // Define product type
+// interface Product {
+//   id: number;
+//   name: string;
+//   price: number;
+//   discountPrice: number;
+//   image: string;
+//   description: string;
+// }
+
 // const PopularProducts: React.FC = () => {
-//   const products = [
+//   const products: Product[] = [
 //     {
 //       id: 13,
 //       name: "Product 13",
@@ -59,19 +68,19 @@
 
 //   const router = useRouter(); // For navigating to the cart page
 
-//   const addToCart = (product: any) => {
+//   const addToCart = (product: Product) => {
 //     // Get the current cart from localStorage or initialize as empty array
-//     let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+//     const cart: { id: number, quantity: number }[] = JSON.parse(localStorage.getItem('cart') || '[]');
 
 //     // Check if the product already exists in the cart
-//     const existingProductIndex = cart.findIndex((item: any) => item.id === product.id);
+//     const existingProductIndex = cart.findIndex((item) => item.id === product.id);
 
 //     if (existingProductIndex !== -1) {
 //       // If the product exists, update its quantity
 //       cart[existingProductIndex].quantity += 1;
 //     } else {
 //       // Otherwise, add the product to the cart
-//       cart.push({ ...product, quantity: 1 });
+//       cart.push({ id: product.id, quantity: 1 });
 //     }
 
 //     // Save the updated cart in localStorage
@@ -176,44 +185,10 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 'use client'
 import Image from 'next/image';
 import React from 'react';
-import { useRouter } from 'next/navigation'; // For redirecting to the cart page
+import { useRouter } from 'next/navigation';
 
 // Define product type
 interface Product {
@@ -277,11 +252,12 @@ const PopularProducts: React.FC = () => {
     },
   ];
 
-  const router = useRouter(); // For navigating to the cart page
+  const router = useRouter();
 
   const addToCart = (product: Product) => {
     // Get the current cart from localStorage or initialize as empty array
-    const cart: { id: number, quantity: number }[] = JSON.parse(localStorage.getItem('cart') || '[]');
+    const cart: { id: number; name: string; image: string; price: number; discountPrice: number; quantity: number }[] =
+      JSON.parse(localStorage.getItem('cart') || '[]');
 
     // Check if the product already exists in the cart
     const existingProductIndex = cart.findIndex((item) => item.id === product.id);
@@ -290,8 +266,15 @@ const PopularProducts: React.FC = () => {
       // If the product exists, update its quantity
       cart[existingProductIndex].quantity += 1;
     } else {
-      // Otherwise, add the product to the cart
-      cart.push({ id: product.id, quantity: 1 });
+      // Otherwise, add the product to the cart with full details
+      cart.push({
+        id: product.id,
+        name: product.name,
+        image: product.image,
+        price: product.price,
+        discountPrice: product.discountPrice,
+        quantity: 1,
+      });
     }
 
     // Save the updated cart in localStorage
@@ -314,14 +297,11 @@ const PopularProducts: React.FC = () => {
                 <Image src={product.image} alt={product.name} height={500} width={500} className="w-full h-64 object-cover mb-4 rounded-lg" />
                 <h3 className="text-xl font-semibold">{product.name}</h3>
                 <p>{product.description}</p>
-
-                {/* Display "Sale" tag if there's a discount */}
                 {product.discountPrice < product.price && (
                   <span className="bg-red-500 text-white py-1 px-2 rounded-full text-sm absolute top-4 right-4">
                     Sale
                   </span>
                 )}
-
                 <p className="font-bold">
                   ${product.discountPrice}
                   {product.discountPrice < product.price && (
@@ -329,7 +309,7 @@ const PopularProducts: React.FC = () => {
                   )}
                 </p>
                 <button
-                  onClick={() => addToCart(product)} // Add to Cart button
+                  onClick={() => addToCart(product)}
                   className="mt-4 py-2 px-4 border-2 border-rose-500 hover:bg-rose-300 text-black rounded-lg"
                 >
                   Add to Cart
@@ -346,14 +326,11 @@ const PopularProducts: React.FC = () => {
               <Image src={product.image} alt={product.name} height={500} width={500} className="w-full h-64 object-cover mb-4 rounded-lg" />
               <h3 className="text-xl font-semibold">{product.name}</h3>
               <p>{product.description}</p>
-
-              {/* Display "Sale" tag if there's a discount */}
               {product.discountPrice < product.price && (
                 <span className="bg-red-500 text-white py-1 px-2 rounded text-sm absolute top-3 left-4">
                   Sale
                 </span>
               )}
-
               <p className="font-bold">
                 ${product.discountPrice}
                 {product.discountPrice < product.price && (
@@ -361,7 +338,7 @@ const PopularProducts: React.FC = () => {
                 )}
               </p>
               <button
-                onClick={() => addToCart(product)} // Add to Cart button
+                onClick={() => addToCart(product)}
                 className="mt-4 py-2 px-4 border-2 border-rose-500 hover:bg-rose-300 text-black rounded-lg"
               >
                 Add to Cart
