@@ -24,7 +24,7 @@ const Hero: React.FC = () => {
         </p>
 
         {/* Shop Now Button */}
-        <Link href="/product" passHref
+        <Link href="/shopnow" passHref
            className="inline-block px-6 sm:px-10 py-3 sm:py-4 bg-gradient-to-r from-rose-500 to-rose-400 text-white font-bold rounded-lg shadow-lg hover:bg-yellow-400 transform transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-2xl animate-fadeSlideUp">
             <span className="flex items-center justify-center">
               <span className="mr-2">🛒</span>Shop Now
